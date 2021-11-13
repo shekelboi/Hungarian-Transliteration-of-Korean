@@ -1,8 +1,14 @@
 import codecs, sys, os, math
 
 
-class Hangul:
+class Syllable:
+    def __init__(self, c1, c2, c3):
+        self.leading_consonant = c1
+        self.vowel = c2
+        self.batchim = c3
 
+
+class Hangul:
     def __init__(self):
         pass
 
@@ -123,25 +129,16 @@ class Hangul:
         else:
             raise ValueError
 
-    def transliterate_character(self, original_character):
-        characters = self.syllables_to_characters(original_character)
-        leading_jamo, vowel, batchim = None, None, None
+    def transliterate_word(self, word: [Syllable]):
+        if len(word) == 0:
+            return ""
 
-        # Transliterated letters
-        first_tlt_consonant, tlt_vowel, second_tlt_consonant = "", "", ""
-        leading_jamo = characters[0]
-        vowel = characters[1]
-        if len(characters) == 4:
-            batchim = self.form_batchim_from_characters(characters[2:4])
-            print(batchim)
-        elif len(characters) > 2:
-            batchim = characters[2]
+        result = ""
 
-        tlt_vowel = self.transliterate_vowel(vowel)
+        for syllable in word:
+            result += self.transliterate_vowel(syllable.vowel)
 
-        word = first_tlt_consonant + tlt_vowel + second_tlt_consonant
-
-        return word
+        return result
 
     def is_character_korean(self, character):
         code_point = ord(character)
@@ -151,23 +148,36 @@ class Hangul:
         else:
             return False
 
-    def transliterate_words(self, text):
+    def transliterate_text(self, text):
         result = ""
         words = text.split()
         for word in words:
+            korean_word = []
             for character in word:
                 if self.is_character_korean(character):
-                    result += self.transliterate_character(character)
+                    characters = self.syllables_to_characters(character)
+                    leading_consonant = characters[0]
+                    vowel = characters[1]
+                    batchim = None
+                    if len(characters) == 4:
+                        batchim = self.form_batchim_from_characters(characters[2:4])
+                    elif len(characters) > 2:
+                        batchim = characters[2]
+                    korean_word.append(Syllable(leading_consonant, vowel, batchim))
                 else:
+                    result += self.transliterate_word(korean_word)
+                    # print(korean_word, end="")
+                    korean_word = []
                     result += character
+            result += self.transliterate_word(korean_word)
             result += " "
+
         return result
 
 
-
 translator = Hangul()
-print(translator.syllables_to_characters("ㄳ,ㄵ,ㄶ,ㄺ,ㄻ,ㄼ,ㄽ,ㄾ,ㄿ,ㅀ,ㅄ...밟"))
-print()
-print(translator.transliterate_character("밟"))
-print(translator.syllables_to_characters("대한민국 this is a test"))
-print(translator.transliterate_words("김정은(金正恩[3], 1984년 1월 8일[1] ~ )은 조선민주주의인민공화국의 최고지도자이다. 2000년대 후반부터 김정일의 후계자로 내세우는 등 차츰 영향력이 커지고 이름이 알려지기 시작했으며, 2010년부터 당 중앙군사위 부위원장 등으로 정치에 참여했다. 2011년 김정일의 사망 이후 3대 세습으로 조선민주주의인민공화국의 원수가 되었다."))
+# print(translator.syllables_to_characters("ㄳ,ㄵ,ㄶ,ㄺ,ㄻ,ㄼ,ㄽ,ㄾ,ㄿ,ㅀ,ㅄ...밟"))
+# print()
+# print(translator.syllables_to_characters("대한민국 this is a test"))
+print(translator.transliterate_text(
+    "김정은(1984년 1월 8일[1] ~ )은 조선민주주의인민공화국의 최고지도자이다. 2000년대 후반부터 김정일의 후계자로 내세우는 등 차츰 영향력이 커지고 이름이 알려지기 시작했으며, 2010년부터 당 중앙군사위 부위원장 등으로 정치에 참여했다. 2011년 김정일의 사망 이후 3대 세습으로 조선민주주의인민공화국의 원수가 되었다."))
