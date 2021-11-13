@@ -17,8 +17,8 @@ class Hangul:
     # 11172 / 588 = 19 which is equal to the number of leading consonant jamos
     NCount = 588
 
-    '''
-    Hangul syllables consists of 2 to 3 characters.
+    """
+    Hangul syllables consists of 2 to 3 characters (because of diphthongs sometimes 4).
     There are all together 11.732 Hangul syllables registered in unicode but all of
     these characters can be broken down to 2 or 3 characters.
     Original version of this function:
@@ -31,7 +31,9 @@ class Hangul:
     https://en.wikipedia.org/wiki/Hangul_Syllables
     The table is very logical, it goes through all the leading consonant jamos,
     the vowel jamos and the trailing consonant jamos in alphabetical order.
-    '''
+    The program may also be rewritten in a way to create a map to all possible hangul syllables
+    and use that.
+    """
 
     def syllables_to_characters(self, text):
         letters = ''
@@ -48,7 +50,124 @@ class Hangul:
                 letters += s
         return letters
 
+    def transliterate_vowel(self, vowel):
+        # Normal vowels
+        if vowel == "ㅏ":
+            return "á"
+        elif vowel == "ㅑ":
+            return "j"
+        elif vowel == "ㅓ":
+            return "a"
+        elif vowel == "ㅕ":
+            return "ja"
+        elif vowel == "ㅗ":
+            return "o"
+        elif vowel == "ㅛ":
+            return "jo"
+        elif vowel == "ㅜ":
+            return "u"
+        elif vowel == "ㅠ":
+            return "ju"
+        elif vowel == "ㅡ":
+            return "ü"
+        elif vowel == "ㅣ":
+            return "i"
+        # Complex vowels
+        elif vowel == "ㅐ":
+            return "e"
+        elif vowel == "ㅒ":
+            return "je"
+        elif vowel == "ㅔ":
+            return "é"
+        elif vowel == "ㅖ":
+            return "jé"
+        # Complex vowels with more than one characters (the syllables_to_characters method doesn't break them)
+        elif vowel == "ㅘ":
+            return "vá"
+        elif vowel == "ㅙ":
+            return "ve"
+        elif vowel == "ㅚ":
+            return "vé"
+        elif vowel == "ㅝ":
+            return "va"
+        elif vowel == "ㅞ":
+            return "ve"
+        elif vowel == "ㅟ":
+            return "vi"
+        elif vowel == "ㅢ":
+            return "üi"
+
+    def form_batchim_from_characters(self, characters):
+        if characters == "ㄱㅅ":
+            return "ㄳ"
+        elif characters == "ㄴㅈ":
+            return "ㄵ"
+        elif characters == "ㄴㅎ":
+            return "ㄶ"
+        elif characters == "ㄹㄱ":
+            return "ㄺ"
+        elif characters == "ㄹㅁ":
+            return "ㄻ"
+        elif characters == "ㄹㅂ":
+            return "ㄼ"
+        elif characters == "ㄹㅅ":
+            return "ㄽ"
+        elif characters == "ㄹㅌ:":
+            return "ㄾ"
+        elif characters == "ㄹㅍ":
+            return "ㄿ"
+        elif characters == "ㄹㅎ":
+            return "ㅀ"
+        elif characters == "ㅂㅅ":
+            return "ㅄ"
+        else:
+            raise ValueError
+
+    def transliterate_character(self, original_character):
+        characters = self.syllables_to_characters(original_character)
+        leading_jamo, vowel, batchim = None, None, None
+
+        # Transliterated letters
+        first_tlt_consonant, tlt_vowel, second_tlt_consonant = "", "", ""
+        leading_jamo = characters[0]
+        vowel = characters[1]
+        if len(characters) == 4:
+            batchim = self.form_batchim_from_characters(characters[2:4])
+            print(batchim)
+        elif len(characters) > 2:
+            batchim = characters[2]
+
+        tlt_vowel = self.transliterate_vowel(vowel)
+
+        word = first_tlt_consonant + tlt_vowel + second_tlt_consonant
+
+        return word
+
+    def is_character_korean(self, character):
+        code_point = ord(character)
+        SIndex = code_point - self.SBase
+        if 0 <= SIndex < self.SCount:
+            return True
+        else:
+            return False
+
+    def transliterate_words(self, text):
+        result = ""
+        words = text.split()
+        for word in words:
+            for character in word:
+                if self.is_character_korean(character):
+                    result += self.transliterate_character(character)
+                else:
+                    result += character
+            result += " "
+        return result
+
+
 
 translator = Hangul()
-print(translator.syllables_to_characters("힣"))
+print(translator.syllables_to_characters("ㄳ,ㄵ,ㄶ,ㄺ,ㄻ,ㄼ,ㄽ,ㄾ,ㄿ,ㅀ,ㅄ...밟"))
+print()
+print(translator.transliterate_character("밟"))
 print(translator.syllables_to_characters("대한민국 this is a test"))
+print(translator.transliterate_words("김정은(金正恩[3], 1984년 1월 8일[1] ~ )은 조선민주주의인민공화국의 최고지도자이다. 2000년대 후반부터 김정일의 후계자로 내세우는 등 차츰 영향력이 커지고 이름이 알려지기 시작했으며, 2010년부터 당 중앙군사위 부위원장 등으로 정치에 참여했다. 2011년 김정일의 사망 이후 3대 세습으로 조선민주주의인민공화국의 원수가 되었다."))
