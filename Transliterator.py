@@ -144,7 +144,7 @@ class Hangul:
         elif vowel == "ㅏ":
             return "á"
         elif vowel == "ㅑ":
-            return "j"
+            return "já"
         elif vowel == "ㅓ":
             return "a"
         elif vowel == "ㅕ":
@@ -244,6 +244,7 @@ class Hangul:
 
     def transliterate_text(self, text):
         result = ""
+        # Splitting may need to be improved to properly include linebreaks
         words = text.split()
         for word in words:
             korean_word = []
