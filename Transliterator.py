@@ -41,6 +41,85 @@ class Hangul:
     and use that.
     """
 
+    @staticmethod
+    def word_final_consonants(consonant):
+        if consonant == "ㄱ":
+            return "k"
+        elif consonant == "ㄴ":
+            return "n"
+        elif consonant == "ㄷ":
+            return "t"
+        elif consonant == "ㄹ":
+            return "r"
+        elif consonant == "ㅁ":
+            return "m"
+        elif consonant == "ㅂ":
+            return "p"
+        elif consonant == "ㅅ":
+            return "g"
+        elif consonant == "ㅇ":
+            return "ng"
+        elif consonant == "ㅈ":
+            return "g"
+        elif consonant == "ㅊ":
+            return "d"
+        elif consonant == "ㅋ":
+            return "g"
+        elif consonant == "ㅌ":
+            return "d"
+        elif consonant == "ㅍ":
+            return "b"
+        elif consonant == "ㅎ":
+            return ""
+        # Complex consonants to be added
+        raise ValueError
+
+    @staticmethod
+    def word_initial_consonants(consonant):
+        if consonant == "ㄱ":
+            return "k"
+        elif consonant == "ㄴ":
+            return "n"
+        elif consonant == "ㄷ":
+            return "t"
+        elif consonant == "ㄹ":
+            return "r"
+        elif consonant == "ㅁ":
+            return "m"
+        elif consonant == "ㅂ":
+            return "p"
+        elif consonant == "ㅅ":
+            return "sz"
+        elif consonant == "ㅇ":
+            return ""
+        elif consonant == "ㅈ":
+            return "dzs"
+        elif consonant == "ㅊ":
+            return "cs"
+        elif consonant == "ㅋ":
+            return "k"
+        elif consonant == "ㅌ":
+            return "t"
+        elif consonant == "ㅍ":
+            return "p"
+        elif consonant == "ㅎ":
+            return "h"
+        # Complex consonants to be added
+        raise ValueError
+
+    @staticmethod
+    def transliterate_consonant(previous_syllable: Syllable, current: Syllable, next_syllable: Syllable, initial: bool):
+        result = ""
+        if initial:
+            if previous_syllable is None:
+                result += Hangul.word_initial_consonants(current.leading_consonant)
+        else:
+            if next_syllable is None:
+                # At the end of the word
+                pass
+            pass
+        return result
+
     def syllables_to_characters(self, text):
         letters = ''
         for s in text:
@@ -56,9 +135,13 @@ class Hangul:
                 letters += s
         return letters
 
-    def transliterate_vowel(self, vowel):
+    @staticmethod
+    def transliterate_vowel(syllable: Syllable):
+        vowel = syllable.vowel
+        if vowel is None:
+            return ""
         # Normal vowels
-        if vowel == "ㅏ":
+        elif vowel == "ㅏ":
             return "á"
         elif vowel == "ㅑ":
             return "j"
@@ -103,7 +186,8 @@ class Hangul:
         elif vowel == "ㅢ":
             return "üi"
 
-    def form_batchim_from_characters(self, characters):
+    @staticmethod
+    def form_batchim_from_characters(characters):
         if characters == "ㄱㅅ":
             return "ㄳ"
         elif characters == "ㄴㅈ":
@@ -129,17 +213,27 @@ class Hangul:
         else:
             raise ValueError
 
-    def transliterate_word(self, word: [Syllable]):
+    @staticmethod
+    def transliterate_word(word: [Syllable]):
         if len(word) == 0:
             return ""
 
         result = ""
 
-        for syllable in word:
-            result += self.transliterate_vowel(syllable.vowel)
+        for i, syllable in enumerate(word):
+            previous_syllable = None
+            next_syllable = None
+            if i != 0:
+                previous_syllable = word[i - 1]
+            if i != len(word) - 1:
+                next_syllable = word[i + 1]
+
+            result += Hangul.transliterate_consonant(previous_syllable, syllable, next_syllable, True)
+            result += Hangul.transliterate_vowel(syllable)
 
         return result
 
+    # Only returns true for complex characters.
     def is_character_korean(self, character):
         code_point = ord(character)
         SIndex = code_point - self.SBase
