@@ -138,12 +138,9 @@ class Hangul:
         return result
 
     @staticmethod
-    def transliterate_vowel(syllable: Syllable):
-        vowel = syllable.vowel
-        if vowel is None:
-            return ""
+    def transliterate_vowel(vowel):
         # Normal vowels
-        elif vowel == "ㅏ":
+        if vowel == "ㅏ":
             return "á"
         elif vowel == "ㅑ":
             return "já"
@@ -231,7 +228,8 @@ class Hangul:
                 next_syllable = word[i + 1]
 
             result += Hangul.transliterate_consonant(previous_syllable, syllable, next_syllable, True)
-            result += Hangul.transliterate_vowel(syllable)
+            if syllable.vowel is not None:
+                result += Hangul.transliterate_vowel(syllable.vowel)
             result += Hangul.transliterate_consonant(previous_syllable, syllable, next_syllable, False)
 
         return result
@@ -271,7 +269,6 @@ class Hangul:
             result += " "
 
         return result
-
 
 translator = Hangul()
 # print(translator.syllables_to_characters("ㄳ,ㄵ,ㄶ,ㄺ,ㄻ,ㄼ,ㄽ,ㄾ,ㄿ,ㅀ,ㅄ...밟"))
