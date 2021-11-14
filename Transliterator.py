@@ -40,6 +40,20 @@ class Hangul:
     The program may also be rewritten in a way to create a map to all possible hangul syllables
     and use that.
     """
+    def syllables_to_characters(self, text):
+        letters = ''
+        for s in text:
+            code_point = ord(s)
+            SIndex = code_point - self.SBase
+            # If the syllable is in the Hangul range of Unicode
+            if 0 <= SIndex < self.SCount:
+                LIndex = SIndex // self.NCount
+                VIndex = (SIndex % self.NCount) // self.TCount
+                TIndex = int(SIndex % self.TCount)
+                letters = letters + (self.JLT[LIndex] + self.JVT[VIndex] + self.JTT[TIndex]).lower()
+            else:
+                letters += s
+        return letters
 
     @staticmethod
     def word_final_consonants(consonant):
@@ -119,21 +133,6 @@ class Hangul:
                 pass
             pass
         return result
-
-    def syllables_to_characters(self, text):
-        letters = ''
-        for s in text:
-            code_point = ord(s)
-            SIndex = code_point - self.SBase
-            # If the syllable is in the Hangul range of Unicode
-            if 0 <= SIndex < self.SCount:
-                LIndex = SIndex // self.NCount
-                VIndex = (SIndex % self.NCount) // self.TCount
-                TIndex = int(SIndex % self.TCount)
-                letters = letters + (self.JLT[LIndex] + self.JVT[VIndex] + self.JTT[TIndex]).lower()
-            else:
-                letters += s
-        return letters
 
     @staticmethod
     def transliterate_vowel(syllable: Syllable):
