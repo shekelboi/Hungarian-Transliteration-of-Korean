@@ -86,6 +86,7 @@ class Hangul:
         elif consonant == "ㅎ":
             return ""
         # Complex consonants to be added
+        return ""
         raise ValueError
 
     @staticmethod
@@ -119,6 +120,7 @@ class Hangul:
         elif consonant == "ㅎ":
             return "h"
         # Complex consonants to be added
+        return ""
         raise ValueError
 
     @staticmethod
@@ -129,6 +131,7 @@ class Hangul:
                 result += Hangul.word_initial_consonants(current.leading_consonant)
         else:
             if next_syllable is None:
+                result += Hangul.word_final_consonants(current.batchim)
                 # At the end of the word
                 pass
             pass
@@ -229,6 +232,7 @@ class Hangul:
 
             result += Hangul.transliterate_consonant(previous_syllable, syllable, next_syllable, True)
             result += Hangul.transliterate_vowel(syllable)
+            result += Hangul.transliterate_consonant(previous_syllable, syllable, next_syllable, False)
 
         return result
 
