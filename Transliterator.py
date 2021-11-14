@@ -279,3 +279,4 @@ translator = Hangul()
 # print(translator.syllables_to_characters("대한민국 this is a test"))
 print(translator.transliterate_text(
     "김정은(1984년 1월 8일[1] ~ )은 조선민주주의인민공화국의 최고지도자이다. 2000년대 후반부터 김정일의 후계자로 내세우는 등 차츰 영향력이 커지고 이름이 알려지기 시작했으며, 2010년부터 당 중앙군사위 부위원장 등으로 정치에 참여했다. 2011년 김정일의 사망 이후 3대 세습으로 조선민주주의인민공화국의 원수가 되었다."))
+print(translator.transliterate_text("책 속 에 서 나 드 라 마 속 에 서 사 랑 을 느 껴"))
