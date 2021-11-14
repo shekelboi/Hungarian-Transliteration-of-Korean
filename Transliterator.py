@@ -40,6 +40,7 @@ class Hangul:
     The program may also be rewritten in a way to create a map to all possible hangul syllables
     and use that.
     """
+
     def syllables_to_characters(self, text):
         letters = ''
         for s in text:
@@ -54,6 +55,80 @@ class Hangul:
             else:
                 letters += s
         return letters
+
+    @staticmethod
+    def syllable_initial_consonants(previous_batchim, current_initial):
+        if current_initial == "ㄱ":
+            if previous_batchim == "ㄺ":
+                return "r"
+            elif previous_batchim == "ㅎ":
+                return "k"
+            else:
+                return "g"
+                # These defaults should be aggregated in a separate method and the else statements should be removed
+                # from here and put at the end instead.
+        elif current_initial == "ㄴ":
+            if previous_batchim == "ㅎ":
+                return "n"
+            elif previous_batchim == "ㄶ":
+                return "n"
+            elif previous_batchim == "ㅀ":
+                return "r"
+            elif previous_batchim == "ㄹ":
+                return "r"
+            else:
+                return "n"
+        elif current_initial == "ㄷ":
+            if previous_batchim in ["ㅎ", "ㄶ", "ㅀ"]:
+                return "t"
+            else:
+                return "d"
+        elif current_initial == "ㄹ":
+            if previous_batchim in ["ㅁ", "ㅇ", "ㄱ", "ㅂ"]:
+                return "n"
+            elif previous_batchim == "ㄴ":
+                return "r"
+            else:
+                return "r"
+        elif current_initial == "ㅁ":
+            return "m"
+        elif current_initial == "ㅂ":
+            return "b"
+        elif current_initial == "ㅅ":
+            if previous_batchim == "ㅎ":
+                return "ssz"
+            else:
+                return "sz"
+        elif current_initial == "ㅇ":
+            return ""
+        elif current_initial == "ㅈ":
+            if previous_batchim in ["ㅎ", "ㄶ", "ㅀ"]:
+                return "cs"
+            else:
+                return "dzs"
+        elif current_initial == "ㅊ":
+            return "cs"
+        elif current_initial == "ㅋ":
+            return "k"
+        elif current_initial == "ㅌ":
+            return "t"
+        elif current_initial == "ㅍ":
+            return "p"
+        elif current_initial == "ㅎ":
+            if previous_batchim in ["ㄱ", "ㄺ"]:
+                return "k"
+            elif previous_batchim == "ㄷ":
+                return "t"
+            elif previous_batchim in ["ㅂ", "ㄼ"]:
+                return "p"
+            elif previous_batchim in ["ㅈ", "ㄵ"]:
+                return "cs"
+            else:
+                return "h"
+        # Add complex consonants
+        else:
+            # The default one should go here
+            return Hangul.word_initial_consonants(current_initial)
 
     @staticmethod
     def word_final_consonants(consonant):
@@ -129,12 +204,13 @@ class Hangul:
         if initial:
             if previous_syllable is None:
                 result += Hangul.word_initial_consonants(current.leading_consonant)
+            else:
+                result += Hangul.syllable_initial_consonants(previous_syllable.batchim, current.leading_consonant)
         else:
             if next_syllable is None:
                 result += Hangul.word_final_consonants(current.batchim)
-                # At the end of the word
+            else:
                 pass
-            pass
         return result
 
     @staticmethod
@@ -270,6 +346,7 @@ class Hangul:
 
         return result
 
+
 translator = Hangul()
 # print(translator.syllables_to_characters("ㄳ,ㄵ,ㄶ,ㄺ,ㄻ,ㄼ,ㄽ,ㄾ,ㄿ,ㅀ,ㅄ...밟"))
 # print()
@@ -277,3 +354,4 @@ translator = Hangul()
 print(translator.transliterate_text(
     "김정은(1984년 1월 8일[1] ~ )은 조선민주주의인민공화국의 최고지도자이다. 2000년대 후반부터 김정일의 후계자로 내세우는 등 차츰 영향력이 커지고 이름이 알려지기 시작했으며, 2010년부터 당 중앙군사위 부위원장 등으로 정치에 참여했다. 2011년 김정일의 사망 이후 3대 세습으로 조선민주주의인민공화국의 원수가 되었다."))
 print(translator.transliterate_text("책 속 에 서 나 드 라 마 속 에 서 사 랑 을 느 껴"))
+print(translator.transliterate_text("책 속에서나 드라마 속에서 사랑을 느껴"))
