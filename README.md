@@ -2,32 +2,28 @@
 Pronunciation of the syllables may change due to the syllables before and after them.
 Hungarian does not have long 'a' and short 'á' vowels, thus the length of vowels is not noted.
 
-✅ indicates that the pronunciation has been verified and is complete
-
 # Pronunciation Guide
 
 **Leading consonants** - ㄱ ㄲ ㄴ ㄷ ㄸ ㄹ ㅁ ㅂ ㅃ ㅅ ㅆ ㅇ ㅈ ㅉ ㅊ ㅋ ㅌ ㅍ ㅎ
 **Trailing consonants** - ㄱ ㄲ ㄱㅅ ㄴ ㄴㅈ ㄴㅎ ㄷ ㄹ ㄹㄱ ㄹㅁ ㄹㅂ ㄹㅅ ㄹㅌ ㄹㅍ ㄹㅎ ㅁ ㅂ ㅂㅅ ㅅ ㅆ ㅇ ㅈ ㅊ ㅋ ㅌ ㅍ ㅎ
 **Vowels (in the middle)** - ㅏ ㅐ ㅑ ㅒ ㅓ ㅔ ㅕ ㅖ ㅗ ㅘ ㅙ ㅚ ㅛ ㅜ ㅝ ㅞ ㅟ ㅠ ㅡ ㅢ ㅣ
 
-Nasal consonants: ㅁ(m) ㄴ(n) ㅇ(ng)
-
 ## Consonants
 ### Basic Consonants
- - ㄱ (g/k/ŋ)
+ - ㄱ (g)
 	 - k: word-initially
 	 - g: word-finally
  - ㄴ (n)
 	 - n: always
- - ㄷ (t/d/n)
+ - ㄷ (d)
 	 - t: word-initially, next to h, after stops, before stops or word-finally
 	 - d: between vowels, after nasals and liquids
 	 - n: before nasals
- - ㄹ(**r**/l)
+ - ㄹ(sound between r and l, noted as r)
 	 - r: word-initially, word-finally
  - ㅁ (m)
 	 - m: always
- - ㅂ (**p**/b)
+ - ㅂ (b)
 	 - p: word-initially
 	 - b: word-finally
  - ㅅ (sz)
@@ -41,20 +37,21 @@ Nasal consonants: ㅁ(m) ㄴ(n) ㅇ(ng)
  - ㅊ (cs)
 	 - cs: at the beginning of the syllable
 	 - d: word-finally and  when preceding a vowel
- - ㅋ (**k**/ŋ/g)
+ - ㅋ (k)
 	 - k: word-initially
 	 - g: word-finally and  when preceding a vowel
 	 - ŋ: before nasals
- - ㅌ (**t**/n)
+ - ㅌ (t)
 	 - t: syllable-initially, before stops, or word-finally
 	 - n: before nasals
- - ㅍ (p/m)
+ - ㅍ (p)
 	 - p: word-initially
 	 - b: word-finally
  - ㅎ(h)
 	 - h: word-initially
 	 - h: word-finally
 ### Complex Consonants
+These consonants may only appear at the end of the word.
  - ㄳ
  - ㄵ
  - ㄶ
@@ -67,16 +64,16 @@ Nasal consonants: ㅁ(m) ㄴ(n) ㅇ(ng)
  - ㅀ
  - ㅄ
 ### Tense Consonants
- - ㄲ (k/ŋ)
+ - ㄲ (gg)
 	 - k: before stops, or word-finally
 	 - ŋ: before nasals
- - ㄸ (t)
+ - ㄸ (dd)
 	 - t: always (maybe double to emphasize the difference)
- - ㅃ (p)
+ - ㅃ (bb)
 	 - p: always (maybe double to emphasize the difference)
- - ㅆ (sz)
+ - ㅆ (ssz)
 	 - sz: always (maybe double to emphasize the difference)
- - ㅉ (dzs)
+ - ㅉ (ddzs)
 	 - dzs: always (maybe double to emphasize the difference)
 ### Exceptions
 - When preceding a vowel or appearing in a final position, each of the bottom consonants ㄲ, ㅋ, ㅅ, ㅆ, ㅈ, ㅊ, ㅌ andㅍ is pronounced as its proxy consonant ㄱ, ㄷ, orㅂ.
@@ -84,7 +81,7 @@ Nasal consonants: ㅁ(m) ㄴ(n) ㅇ(ng)
 - When preceding a vowel or appearing in a final position, each of the bottom consonant pairs ㄺ, ㄻ andㄿis pronounced as its proxy consonant ㄱ, ㅁ, orㅂ.
 - ㅎ (ㄶor ㅀ) combines with the first sound of the ensuing syllable and is pronounced ㅋ, ㅌor ㅊwhen it precedes a ㄱ, ㄷ, orㅈ. Likewise, ㅎ combines with the bottom consonant of a preceding syllable to be pronounced ㅋ, ㅌ, ㅍor ㅊ when it succeeds ㄱ (ㄺ), ㄷ, ㅂ (ㄼ) orㅈ (ㄵ).
 - 
-## Vowels ✅
+## Vowels
 ### Simple vowels
  - ㅏ = á
  - ㅑ = já
