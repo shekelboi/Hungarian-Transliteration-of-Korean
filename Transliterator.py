@@ -8,6 +8,9 @@ class Syllable:
         self.batchim = c3
 
 
+# Everything is purposefully redundant in this class
+# To help the developer understand the rules properly
+# Once the rules have been aggregated the program will be compressed
 class Hangul:
     def __init__(self):
         pass
@@ -124,7 +127,6 @@ class Hangul:
         else:
             raise ValueError
 
-
     @staticmethod
     def syllable_final_consonants(current_batchim, next_initial):
         # TODO: add implementation
@@ -207,8 +209,40 @@ class Hangul:
             return "b"
         elif consonant == "ㅎ":
             return ""
-        # TODO: Add complex consonants
-        return ""
+        # Tense consonants
+        elif consonant == "ㄲ":
+            return "kk"
+        elif consonant == "ㄸ":
+            return ""
+        elif consonant == "ㅃ":
+            return ""
+        elif consonant == "ㅆ":
+            return "t"
+        elif consonant == "ㅉ":
+            return ""
+        # Complex consonants
+        elif consonant == "ㄳ":
+            return "k"
+        elif consonant == "ㄵ":
+            return "n"
+        elif consonant == "ㄶ":
+            return "n"
+        elif consonant == "ㄺ":
+            return "k"
+        elif consonant == "ㄻ":
+            return "m"
+        elif consonant == "ㄼ":
+            return "r"
+        elif consonant == "ㄽ":
+            return "r"
+        elif consonant == "ㄾ":
+            return "r"
+        elif consonant == "ㄿ":
+            return "p"
+        elif consonant == "ㅀ":
+            return "r"
+        elif consonant == "ㅄ":
+            return "p"
         raise ValueError
 
     @staticmethod
