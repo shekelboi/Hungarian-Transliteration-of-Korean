@@ -127,6 +127,7 @@ class Hangul:
 
     @staticmethod
     def syllable_final_consonants(current_batchim, next_initial):
+        # TODO: add implementation
         pass
 
     @staticmethod
@@ -170,7 +171,7 @@ class Hangul:
                 return "p"
             elif previous_batchim in ["ㅈ", "ㄵ"]:
                 return "cs"
-        # Add tense consonants
+        # TODO: Add tense consonants
 
         # Other cases such as:
         # ㅁ, ㅂ, ㅊ, ㅋ, ㅌ, ㅍ
@@ -206,7 +207,7 @@ class Hangul:
             return "b"
         elif consonant == "ㅎ":
             return ""
-        # Complex consonants to be added
+        # TODO: Add complex consonants
         return ""
         raise ValueError
 
