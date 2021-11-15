@@ -249,7 +249,7 @@ class Hangul:
         elif consonant == "ㅃ":
             return "pp"
         elif consonant == "ㅆ":
-            return "ssz"
+            return "ss"
         elif consonant == "ㅉ":
             return "ddzs"
         raise ValueError
