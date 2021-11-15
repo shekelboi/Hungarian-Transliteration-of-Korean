@@ -57,16 +57,85 @@ class Hangul:
         return letters
 
     @staticmethod
+    def default_consonant(consonant):
+        # Simple consonants
+        if consonant == "ㄱ":
+            return "g"
+        elif consonant == "ㄴ":
+            return "n"
+        elif consonant == "ㄷ":
+            return "d"
+        elif consonant == "ㄹ":
+            return "r"
+        elif consonant == "ㅁ":
+            return "m"
+        elif consonant == "ㅂ":
+            return "b"
+        elif consonant == "ㅅ":
+            return "sz"
+        elif consonant == "ㅇ":
+            return "ng"
+        elif consonant == "ㅈ":
+            return "dzs"
+        elif consonant == "ㅊ":
+            return "cs"
+        elif consonant == "ㅋ":
+            return "k"
+        elif consonant == "ㅌ":
+            return "t"
+        elif consonant == "ㅍ":
+            return "p"
+        elif consonant == "ㅎ":
+            return "h"
+        # Tense consonants
+        elif consonant == "ㄲ":
+            return "gg"
+        elif consonant == "ㄸ":
+            return "dd"
+        elif consonant == "ㅃ":
+            return "bb"
+        elif consonant == "ㅆ":
+            return "ssz"
+        elif consonant == "ㅆ":
+            return "ddzs"
+        # Complex consonants
+        elif consonant == "ㄳ":
+            return "g"
+        elif consonant == "ㄵ":
+            return "ndzs"
+        elif consonant == "ㄶ":
+            return "nh"
+        elif consonant == "ㄺ":
+            return "g"
+        elif consonant == "ㄻ":
+            return "m"
+        elif consonant == "ㄼ":
+            return "b"
+        elif consonant == "ㄽ":
+            return "s"
+        elif consonant == "ㄾ":
+            return "t"
+        elif consonant == "ㄿ":
+            return "p"
+        elif consonant == "ㅀ":
+            return "h"
+        elif consonant == "ㅄ":
+            return "p"
+        else:
+            raise ValueError
+
+
+    @staticmethod
+    def syllable_final_consonants(current_batchim, next_initial):
+        pass
+
+    @staticmethod
     def syllable_initial_consonants(previous_batchim, current_initial):
         if current_initial == "ㄱ":
             if previous_batchim == "ㄺ":
                 return "r"
             elif previous_batchim == "ㅎ":
                 return "k"
-            else:
-                return "g"
-                # These defaults should be aggregated in a separate method and the else statements should be removed
-                # from here and put at the end instead.
         elif current_initial == "ㄴ":
             if previous_batchim == "ㅎ":
                 return "n"
@@ -76,44 +145,22 @@ class Hangul:
                 return "r"
             elif previous_batchim == "ㄹ":
                 return "r"
-            else:
-                return "n"
         elif current_initial == "ㄷ":
             if previous_batchim in ["ㅎ", "ㄶ", "ㅀ"]:
                 return "t"
-            else:
-                return "d"
         elif current_initial == "ㄹ":
             if previous_batchim in ["ㅁ", "ㅇ", "ㄱ", "ㅂ"]:
                 return "n"
             elif previous_batchim == "ㄴ":
                 return "r"
-            else:
-                return "r"
-        elif current_initial == "ㅁ":
-            return "m"
-        elif current_initial == "ㅂ":
-            return "b"
         elif current_initial == "ㅅ":
             if previous_batchim == "ㅎ":
                 return "ssz"
-            else:
-                return "sz"
         elif current_initial == "ㅇ":
             return ""
         elif current_initial == "ㅈ":
             if previous_batchim in ["ㅎ", "ㄶ", "ㅀ"]:
                 return "cs"
-            else:
-                return "dzs"
-        elif current_initial == "ㅊ":
-            return "cs"
-        elif current_initial == "ㅋ":
-            return "k"
-        elif current_initial == "ㅌ":
-            return "t"
-        elif current_initial == "ㅍ":
-            return "p"
         elif current_initial == "ㅎ":
             if previous_batchim in ["ㄱ", "ㄺ"]:
                 return "k"
@@ -123,12 +170,11 @@ class Hangul:
                 return "p"
             elif previous_batchim in ["ㅈ", "ㄵ"]:
                 return "cs"
-            else:
-                return "h"
-        # Add complex consonants
-        else:
-            # The default one should go here
-            return Hangul.word_initial_consonants(current_initial)
+        # Add tense consonants
+
+        # Other cases such as:
+        # ㅁ, ㅂ, ㅊ, ㅋ, ㅌ, ㅍ
+        return Hangul.default_consonant(current_initial)
 
     @staticmethod
     def word_final_consonants(consonant):
@@ -194,8 +240,17 @@ class Hangul:
             return "p"
         elif consonant == "ㅎ":
             return "h"
-        # Complex consonants to be added
-        return ""
+        # Tense consonants
+        elif consonant == "ㄲ":
+            return "kk"
+        elif consonant == "ㄸ":
+            return "tt"
+        elif consonant == "ㅃ":
+            return "pp"
+        elif consonant == "ㅆ":
+            return "ssz"
+        elif consonant == "ㅉ":
+            return "ddzs"
         raise ValueError
 
     @staticmethod
@@ -262,7 +317,8 @@ class Hangul:
             return "üi"
 
     @staticmethod
-    def form_batchim_from_characters(characters):
+    def merge_characters(characters):
+        # Complex characters
         if characters == "ㄱㅅ":
             return "ㄳ"
         elif characters == "ㄴㅈ":
@@ -332,7 +388,7 @@ class Hangul:
                     vowel = characters[1]
                     batchim = None
                     if len(characters) == 4:
-                        batchim = self.form_batchim_from_characters(characters[2:4])
+                        batchim = self.merge_characters(characters[2:4])
                     elif len(characters) > 2:
                         batchim = characters[2]
                     korean_word.append(Syllable(leading_consonant, vowel, batchim))
@@ -351,7 +407,9 @@ translator = Hangul()
 # print(translator.syllables_to_characters("ㄳ,ㄵ,ㄶ,ㄺ,ㄻ,ㄼ,ㄽ,ㄾ,ㄿ,ㅀ,ㅄ...밟"))
 # print()
 # print(translator.syllables_to_characters("대한민국 this is a test"))
-print(translator.transliterate_text(
-    "김정은(1984년 1월 8일[1] ~ )은 조선민주주의인민공화국의 최고지도자이다. 2000년대 후반부터 김정일의 후계자로 내세우는 등 차츰 영향력이 커지고 이름이 알려지기 시작했으며, 2010년부터 당 중앙군사위 부위원장 등으로 정치에 참여했다. 2011년 김정일의 사망 이후 3대 세습으로 조선민주주의인민공화국의 원수가 되었다."))
-print(translator.transliterate_text("책 속 에 서 나 드 라 마 속 에 서 사 랑 을 느 껴"))
-print(translator.transliterate_text("책 속에서나 드라마 속에서 사랑을 느껴"))
+# print(translator.transliterate_text(
+#     "김정은(1984년 1월 8일[1] ~ )은 조선민주주의인민공화국의 최고지도자이다. 2000년대 후반부터 김정일의 후계자로 내세우는 등 차츰 영향력이 커지고 이름이 알려지기 시작했으며, 2010년부터 당 중앙군사위 부위원장 등으로 정치에 참여했다. 2011년 김정일의 사망 이후 3대 세습으로 조선민주주의인민공화국의 원수가 되었다."))
+# print(translator.transliterate_text("책 속 에 서 나 드 라 마 속 에 서 사 랑 을 느 껴"))
+# print(translator.transliterate_text("책 속에서나 드라마 속에서 사랑을 느껴"))
+# print(translator.syllables_to_characters("씨"))
+print(translator.transliterate_text("따뜻한"))
