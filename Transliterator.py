@@ -134,6 +134,7 @@ class Hangul:
 
     @staticmethod
     def syllable_initial_consonants(previous_batchim, current_initial):
+        # Simple consonants
         if current_initial == "ㄱ":
             if previous_batchim == "ㄺ":
                 return "r"
@@ -173,10 +174,15 @@ class Hangul:
                 return "p"
             elif previous_batchim in ["ㅈ", "ㄵ"]:
                 return "cs"
-        # TODO: Add tense consonants
+        # Tense consonants
+        elif current_initial == "ㄲ":
+            return "k"
+        elif current_initial == "ㅆ":
+            return "d"
 
         # Other cases such as:
         # ㅁ, ㅂ, ㅊ, ㅋ, ㅌ, ㅍ
+        # ㄸ, ㅃ, ㅉ
         return Hangul.default_consonant(current_initial)
 
     @staticmethod
