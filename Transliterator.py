@@ -289,23 +289,6 @@ class Hangul:
         raise ValueError
 
     @staticmethod
-    def transliterate_consonant(previous_syllable: Syllable, current: Syllable, next_syllable: Syllable, initial: bool):
-        result = ""
-        if initial and current.leading_consonant is not None:
-            if previous_syllable is None:
-                result += Hangul.word_initial_consonants(current.leading_consonant)
-            else:
-                result += Hangul.syllable_initial_consonants(previous_syllable.batchim, current.leading_consonant)
-        elif current.batchim is not None:
-            if next_syllable is None:
-                result += Hangul.word_final_consonants(current.batchim)
-            else:
-                # Delet dis pls, only for testing
-                result += Hangul.default_consonant(current.batchim)
-                pass
-        return result
-
-    @staticmethod
     def transliterate_vowel(vowel):
         # Normal vowels
         if vowel == "ㅏ":
@@ -352,6 +335,7 @@ class Hangul:
             return "vi"
         elif vowel == "ㅢ":
             return "üi"
+        raise ValueError
 
     @staticmethod
     def merge_characters(characters):
@@ -383,9 +367,6 @@ class Hangul:
 
     @staticmethod
     def transliterate_word(word: [Syllable]):
-        if len(word) == 0:
-            return ""
-
         result = ""
 
         for i, syllable in enumerate(word):
@@ -396,10 +377,20 @@ class Hangul:
             if i != len(word) - 1:
                 next_syllable = word[i + 1]
 
-            result += Hangul.transliterate_consonant(previous_syllable, syllable, next_syllable, True)
+            if syllable.leading_consonant is not None:
+                if previous_syllable is None:
+                    result += Hangul.word_initial_consonants(syllable.leading_consonant)
+                else:
+                    result += Hangul.syllable_initial_consonants(previous_syllable.batchim, syllable.leading_consonant)
             if syllable.vowel is not None:
                 result += Hangul.transliterate_vowel(syllable.vowel)
-            result += Hangul.transliterate_consonant(previous_syllable, syllable, next_syllable, False)
+            if syllable.batchim is not None:
+                if next_syllable is None:
+                    result += Hangul.word_final_consonants(syllable.batchim)
+                else:
+                    # Only for testing, must be changed later
+                    result += Hangul.default_consonant(syllable.batchim)
+                    pass
 
         return result
 
