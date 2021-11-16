@@ -99,7 +99,7 @@ class Hangul:
             return "bb"
         elif consonant == "ㅆ":
             return "ssz"
-        elif consonant == "ㅆ":
+        elif consonant == "ㅉ":
             return "ddzs"
         # Complex consonants
         elif consonant == "ㄳ":
