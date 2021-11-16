@@ -291,15 +291,17 @@ class Hangul:
     @staticmethod
     def transliterate_consonant(previous_syllable: Syllable, current: Syllable, next_syllable: Syllable, initial: bool):
         result = ""
-        if initial:
+        if initial and current.leading_consonant is not None:
             if previous_syllable is None:
                 result += Hangul.word_initial_consonants(current.leading_consonant)
             else:
                 result += Hangul.syllable_initial_consonants(previous_syllable.batchim, current.leading_consonant)
-        else:
+        elif current.batchim is not None:
             if next_syllable is None:
                 result += Hangul.word_final_consonants(current.batchim)
             else:
+                # Delet dis pls, only for testing
+                result += Hangul.default_consonant(current.batchim)
                 pass
         return result
 
@@ -413,7 +415,7 @@ class Hangul:
     def transliterate_text(self, text):
         result = ""
         # Splitting may need to be improved to properly include linebreaks
-        words = text.split()
+        words = text.split() # text.split(' ') is worth consideration but might need some improvement
         for word in words:
             korean_word = []
             for character in word:
