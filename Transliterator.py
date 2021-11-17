@@ -199,36 +199,70 @@ class Hangul:
                 return ""
             elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
                 return "ng"
-            else:
-                return "g"
         elif current_batchim == "ㄷ":
             if next_syllable.leading_consonant == "ㅎ":
                 return ""
             elif next_syllable.leading_consonant == "ㅇ" and next_syllable.vowel == "ㅣ":
-                return "dzs"
-            else:
-                return "d"
+                return ""
         elif current_batchim == "ㅂ":
             if next_syllable.leading_consonant == "ㅎ":
                 return ""
             elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
                 return "m"
-            else:
-                return "b"
         elif current_batchim == "ㅅ":
             if next_syllable.leading_consonant in ["ㅅ", "ㅈ", "ㅊ", "ㅌ"]:
                 return ""
             elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
                 return "n"
             else:
-                return "sz"
-        # TODO: continue from ㅇ according to alphabetical order
+                return "d"
+        elif current_batchim == "ㅈ":
+            if next_syllable.leading_consonant == "ㅎ":
+                return ""
+            elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
+                return "n"
+            else:
+                return "d"
+        elif current_batchim == "ㅊ":
+            if next_syllable.leading_consonant == "ㅎ":
+                return ""
+            elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
+                return "n"
+            else:
+                return "n"
+        elif current_batchim == "ㅋ":
+            if next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
+                return "ng"
+            else:
+                return "g"
+        elif current_batchim == "ㅌ":
+            if next_syllable.leading_consonant == "ㅎ":
+                return ""
+            elif next_syllable.leading_consonant == "ㅇ" and next_syllable.vowel == "ㅣ":
+                return ""
+            elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
+                return "n"
+        elif current_batchim == "ㅍ":
+            if next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
+                return "m"
+            else:
+                return "b"
+        elif current_batchim == "ㅎ":
+            if next_syllable.leading_consonant in ["ㄱ", "ㄷ", "ㅈ"]:
+                return ""
+            elif next_syllable.leading_consonant == "ㅅ":
+                return ""
+            elif next_syllable.leading_consonant == "ㄴ":
+                return "n"
+            elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
+                return "n"
+
         # Other cases such as:
-        # ㄴ, ㄹ, ㅁ
+        # ㄴ, ㄹ, ㅁ, ㅇ
         return Hangul.default_consonant(current_batchim)
 
     @staticmethod
-    def syllable_initial_consonants(previous_batchim, current_initial):
+    def syllable_initial_consonants(previous_batchim, current_initial, current_vowel):
         # Simple consonants
         if current_initial == "ㄱ":
             if previous_batchim == "ㄺ":
@@ -256,7 +290,13 @@ class Hangul:
             if previous_batchim in ["ㅎ", "ㄶ", "ㅀ"]:
                 return "ssz"
         elif current_initial == "ㅇ":
-            # If the previous character was complex we take the default pronunciation of the second letter from that.
+            if current_vowel == "ㅣ":
+                if previous_batchim in ["ㅌ", "ㄾ"]:
+                    return "cs"
+                elif previous_batchim == "ㄷ":
+                    return "dzs"
+            # If the previous character was complex (but not ㄾ) we take the default pronunciation of the second
+            # letter from that.
             if Complex.is_complex(previous_batchim):
                 return Hangul.default_consonant(Complex.separate_characters(previous_batchim).second)
             else:
@@ -460,7 +500,7 @@ class Hangul:
                 if previous_syllable is None:
                     result += Hangul.word_initial_consonants(syllable.leading_consonant)
                 else:
-                    result += Hangul.syllable_initial_consonants(previous_syllable.batchim, syllable.leading_consonant)
+                    result += Hangul.syllable_initial_consonants(previous_syllable.batchim, syllable.leading_consonant, syllable.vowel)
             if syllable.vowel is not None:
                 result += Hangul.transliterate_vowel(syllable.vowel)
             if syllable.batchim is not None:
@@ -484,7 +524,7 @@ class Hangul:
     def transliterate_text(self, text):
         result = ""
         # Splitting may need to be improved to properly include linebreaks
-        words = text.split() # text.split(' ') is worth consideration but might need some improvement
+        words = text.split(' ') # is worth consideration but might need some improvement
         for word in words:
             korean_word = []
             for character in word:
