@@ -8,6 +8,70 @@ class Syllable:
         self.batchim = c3
 
 
+class Complex:
+    def __init__(self, first, second):
+        self.first = first
+        self.second = second
+
+    @staticmethod
+    def is_complex(consonant):
+        return consonant in ["ㄳ", "ㄵ", "ㄶ", "ㄺ", "ㄻ", "ㄼ", "ㄽ", "ㄾ", "ㄿ", "ㅀ", "ㅄ"]
+
+    @staticmethod
+    def merge_characters(characters):
+        if characters == "ㄱㅅ":
+            return "ㄳ"
+        elif characters == "ㄴㅈ":
+            return "ㄵ"
+        elif characters == "ㄴㅎ":
+            return "ㄶ"
+        elif characters == "ㄹㄱ":
+            return "ㄺ"
+        elif characters == "ㄹㅁ":
+            return "ㄻ"
+        elif characters == "ㄹㅂ":
+            return "ㄼ"
+        elif characters == "ㄹㅅ":
+            return "ㄽ"
+        elif characters == "ㄹㅌ:":
+            return "ㄾ"
+        elif characters == "ㄹㅍ":
+            return "ㄿ"
+        elif characters == "ㄹㅎ":
+            return "ㅀ"
+        elif characters == "ㅂㅅ":
+            return "ㅄ"
+        else:
+            raise ValueError
+
+    @staticmethod
+    def separate_characters(character):
+        if character == "ㄳ":
+            return Complex("ㄱ", "ㅅ")
+        elif character == "ㄵ":
+            return Complex("ㄴ", "ㅈ")
+        elif character == "ㄶ":
+            return Complex("ㄴ", "ㅎ")
+        elif character == "ㄺ":
+            return Complex("ㄹ", "ㄱ")
+        elif character == "ㄻ":
+            return Complex("ㄹ", "ㅁ")
+        elif character == "ㄼ":
+            return Complex("ㄹ", "ㅂ")
+        elif character == "ㄽ":
+            return Complex("ㄹ", "ㅅ")
+        elif character == "ㄾ":
+            return Complex("ㄹ", "ㅌ")
+        elif character == "ㄿ":
+            return Complex("ㄹ", "ㅍ")
+        elif character == "ㅀ":
+            return Complex("ㄹ", "ㅎ")
+        elif character == "ㅄ":
+            return Complex("ㅂ", "ㅅ")
+        else:
+            raise ValueError
+
+
 # Everything is purposefully redundant in this class
 # To help the developer understand the rules properly
 # Once the rules have been aggregated the program will be compressed
@@ -158,21 +222,27 @@ class Hangul:
             elif previous_batchim == "ㄴ":
                 return "r"
         elif current_initial == "ㅅ":
-            if previous_batchim == "ㅎ":
+            if previous_batchim in ["ㅎ", "ㄶ", "ㅀ"]:
                 return "ssz"
         elif current_initial == "ㅇ":
-            return ""
+            # If the previous character was complex we take the default pronunciation of the second letter from that.
+            if Complex.is_complex(previous_batchim):
+                return Hangul.default_consonant(Complex.separate_characters(previous_batchim).second)
+            else:
+                return ""
         elif current_initial == "ㅈ":
             if previous_batchim in ["ㅎ", "ㄶ", "ㅀ"]:
                 return "cs"
         elif current_initial == "ㅎ":
             if previous_batchim in ["ㄱ", "ㄺ"]:
                 return "k"
-            elif previous_batchim == "ㄷ":
+            elif previous_batchim in ["ㄷ", "ㅌ", "ㅅ"]:
                 return "t"
             elif previous_batchim in ["ㅂ", "ㄼ"]:
                 return "p"
             elif previous_batchim in ["ㅈ", "ㄵ"]:
+                return "dzs"
+            elif previous_batchim == "ㅊ":
                 return "cs"
         # Tense consonants
         elif current_initial == "ㄲ":
@@ -344,34 +414,6 @@ class Hangul:
         raise ValueError
 
     @staticmethod
-    def merge_characters(characters):
-        # Complex characters
-        if characters == "ㄱㅅ":
-            return "ㄳ"
-        elif characters == "ㄴㅈ":
-            return "ㄵ"
-        elif characters == "ㄴㅎ":
-            return "ㄶ"
-        elif characters == "ㄹㄱ":
-            return "ㄺ"
-        elif characters == "ㄹㅁ":
-            return "ㄻ"
-        elif characters == "ㄹㅂ":
-            return "ㄼ"
-        elif characters == "ㄹㅅ":
-            return "ㄽ"
-        elif characters == "ㄹㅌ:":
-            return "ㄾ"
-        elif characters == "ㄹㅍ":
-            return "ㄿ"
-        elif characters == "ㄹㅎ":
-            return "ㅀ"
-        elif characters == "ㅂㅅ":
-            return "ㅄ"
-        else:
-            raise ValueError
-
-    @staticmethod
     def transliterate_word(word: [Syllable]):
         result = ""
 
@@ -395,8 +437,7 @@ class Hangul:
                     result += Hangul.word_final_consonants(syllable.batchim)
                 else:
                     # Only for testing, must be changed later
-                    result += Hangul.default_consonant(syllable.batchim)
-                    pass
+                    result += Hangul.syllable_final_consonants(syllable.batchim, next_syllable)
 
         return result
 
