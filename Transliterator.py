@@ -420,9 +420,9 @@ class Hangul:
             return "i"
         # Complex vowels
         elif vowel == "ㅐ":
-            return "e"
+            return "é"
         elif vowel == "ㅒ":
-            return "je"
+            return "jé"
         elif vowel == "ㅔ":
             return "é"
         elif vowel == "ㅖ":
@@ -431,13 +431,13 @@ class Hangul:
         elif vowel == "ㅘ":
             return "vá"
         elif vowel == "ㅙ":
-            return "ve"
+            return "vé"
         elif vowel == "ㅚ":
             return "vé"
         elif vowel == "ㅝ":
             return "va"
         elif vowel == "ㅞ":
-            return "ve"
+            return "vé"
         elif vowel == "ㅟ":
             return "vi"
         elif vowel == "ㅢ":
