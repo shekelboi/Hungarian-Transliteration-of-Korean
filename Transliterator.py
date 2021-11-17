@@ -301,11 +301,11 @@ class Hangul:
         elif consonant == "ㅂ":
             return "p"
         elif consonant == "ㅅ":
-            return "g"
+            return "d"
         elif consonant == "ㅇ":
             return "ng"
         elif consonant == "ㅈ":
-            return "g"
+            return "d"
         elif consonant == "ㅊ":
             return "d"
         elif consonant == "ㅋ":
@@ -324,7 +324,7 @@ class Hangul:
         elif consonant == "ㅃ":
             return ""
         elif consonant == "ㅆ":
-            return "t"
+            return "d"
         elif consonant == "ㅉ":
             return ""
         # Complex consonants
