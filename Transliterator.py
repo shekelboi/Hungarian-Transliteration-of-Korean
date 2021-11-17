@@ -214,8 +214,6 @@ class Hangul:
                 return ""
             elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
                 return "n"
-            else:
-                return "d"
         elif current_batchim == "ㅈ":
             if next_syllable.leading_consonant == "ㅎ":
                 return ""
