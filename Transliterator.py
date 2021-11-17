@@ -221,7 +221,7 @@ class Hangul:
             elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
                 return "n"
             else:
-                return "s"
+                return "sz"
         # TODO: continue from ㅇ according to alphabetical order
         # Other cases such as:
         # ㄴ, ㄹ, ㅁ
