@@ -494,7 +494,7 @@ class Hangul:
                     vowel = characters[1]
                     batchim = None
                     if len(characters) == 4:
-                        batchim = self.merge_characters(characters[2:4])
+                        batchim = Complex.merge_characters(characters[2:4])
                     elif len(characters) > 2:
                         batchim = characters[2]
                     korean_word.append(Syllable(leading_consonant, vowel, batchim))
@@ -520,4 +520,4 @@ translator = Hangul()
 # print(translator.syllables_to_characters("씨"))
 print(translator.transliterate_text("따뜻한"))
 print(translator.transliterate_text("굳이"))
-print(translator.transliterate_text("전했습니다"))
+print(translator.transliterate_text("탈북민단체는 6.25전쟁 70주년을 맞아, 6.25 참상의 진실이라는 제목의 대북전단 100만 장을 이달 안에 날려 보낼 것이라고 밝혔으며 단체 측은 풍선 40 - 50개를 띄울 수 있는 수소가스를 준비했고, 풍선을 통한 전단 살포가 막히면 드론을 이용해 전단을 날리는 방안도 검토하고 있다고 설명했다"))
