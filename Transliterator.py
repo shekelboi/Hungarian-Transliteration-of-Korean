@@ -191,10 +191,41 @@ class Hangul:
         else:
             raise ValueError
 
+    # Part 4 Section 8 Korean Prules rule is unclear
     @staticmethod
-    def syllable_final_consonants(current_batchim, next_initial):
-        # TODO: add implementation
-        pass
+    def syllable_final_consonants(current_batchim, next_syllable: Syllable):
+        if current_batchim == "ㄱ":
+            if next_syllable.leading_consonant == "ㅎ":
+                return ""
+            elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
+                return "ng"
+            else:
+                return "g"
+        elif current_batchim == "ㄷ":
+            if next_syllable.leading_consonant == "ㅎ":
+                return ""
+            elif next_syllable.leading_consonant == "ㅇ" and next_syllable.vowel == "ㅣ":
+                return "dzs"
+            else:
+                return "d"
+        elif current_batchim == "ㅂ":
+            if next_syllable.leading_consonant == "ㅎ":
+                return ""
+            elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
+                return "m"
+            else:
+                return "b"
+        elif current_batchim == "ㅅ":
+            if next_syllable.leading_consonant in ["ㅅ", "ㅈ", "ㅊ", "ㅌ"]:
+                return ""
+            elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
+                return "n"
+            else:
+                return "s"
+        # TODO: continue from ㅇ according to alphabetical order
+        # Other cases such as:
+        # ㄴ, ㄹ, ㅁ
+        return Hangul.default_consonant(current_batchim)
 
     @staticmethod
     def syllable_initial_consonants(previous_batchim, current_initial):
@@ -488,3 +519,5 @@ translator = Hangul()
 # print(translator.transliterate_text("책 속에서나 드라마 속에서 사랑을 느껴"))
 # print(translator.syllables_to_characters("씨"))
 print(translator.transliterate_text("따뜻한"))
+print(translator.transliterate_text("굳이"))
+print(translator.transliterate_text("전했습니다"))
