@@ -209,6 +209,8 @@ class Hangul:
         elif current_batchim == "ㄷ":
             if next_syllable.leading_consonant == "ㅎ":
                 return ""
+            elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
+                return "n"
             elif next_syllable.leading_consonant == "ㅇ" and next_syllable.vowel == "ㅣ":
                 return ""
         elif current_batchim == "ㅂ":
@@ -217,7 +219,7 @@ class Hangul:
             elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
                 return "m"
         elif current_batchim == "ㅅ":
-            if next_syllable.leading_consonant in ["ㅅ", "ㅈ", "ㅊ", "ㅌ"]:
+            if next_syllable.leading_consonant in ["ㅈ", "ㅊ", "ㅌ"]:
                 return ""
             elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
                 return "n"
@@ -226,6 +228,10 @@ class Hangul:
                     return "s"
                 else:
                     return "sz"
+            elif next_syllable.leading_consonant == "ㄷ":
+                return "d"
+            elif next_syllable.leading_consonant == "ㅎ":
+                return ""
         elif current_batchim == "ㅈ":
             if next_syllable.leading_consonant == "ㅎ":
                 return ""
@@ -349,7 +355,7 @@ class Hangul:
         elif consonant == "ㄷ":
             return "t"
         elif consonant == "ㄹ":
-            return "r"
+            return "l"
         elif consonant == "ㅁ":
             return "m"
         elif consonant == "ㅂ":
@@ -405,6 +411,14 @@ class Hangul:
         elif consonant == "ㅄ":
             return "p"
         raise ValueError
+
+    @staticmethod
+    def word_initial_consonants_with_vowel(consonant, vowel):
+        """ For special cases where the vowel affects the pronunciation (e.g. ㅅ) """
+        if consonant == "ㅅ":
+            if vowel == "ㅣ":
+                return "s"
+        return Hangul.word_initial_consonants(consonant)
 
     @staticmethod
     def word_initial_consonants(consonant):
@@ -515,7 +529,7 @@ class Hangul:
 
             if syllable.leading_consonant is not None:
                 if previous_syllable is None:
-                    result += Hangul.word_initial_consonants(syllable.leading_consonant)
+                    result += Hangul.word_initial_consonants_with_vowel(syllable.leading_consonant, syllable.vowel)
                 else:
                     result += Hangul.syllable_initial_consonants(previous_syllable.batchim, syllable.leading_consonant,
                                                                  syllable.vowel)
