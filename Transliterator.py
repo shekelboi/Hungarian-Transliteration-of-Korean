@@ -1,4 +1,6 @@
-import codecs, sys, os, math
+import os
+import sys
+from argparse import ArgumentParser
 
 
 class Syllable:
@@ -559,7 +561,34 @@ class Hangul:
         return result
 
 
+parser = ArgumentParser("With the help of this script you can transliterate Hangul text into Hungarian.")
+parser.add_argument('string', nargs='?', help="Text that the user wants to translate.", default=None)
+parser.add_argument("-i", "--input", nargs=1, metavar="input", help="Load a file.")
+parser.add_argument("-o", "--output", nargs=1, metavar="output",
+                    help="Create a new file with the transliteration.")
+parser.add_argument("-d", "--display", action="store_true",
+                    help="Whether the user wants to display the transliteration in the console")
+
+args = parser.parse_args()
+
 translator = Hangul()
+
+if args.string is not None:
+    print(translator.transliterate_text(args.string))
+
+if args.output is not None and args.input is None:
+    parser.error("Input wasn't provided even though output was.")
+elif args.input is not None:
+    input_name = args.input[0]
+    with open(input_name, mode="r", encoding="utf-8") as file:
+        original_text = file.read()
+    transliteration = translator.transliterate_text(original_text)
+    if args.display:
+        print(transliteration)
+    if args.output is not None:
+        with open(args.output[0], mode="w", encoding="utf-8") as file:
+            file.write(transliteration)
+
 # print(translator.syllables_to_characters("ㄳ,ㄵ,ㄶ,ㄺ,ㄻ,ㄼ,ㄽ,ㄾ,ㄿ,ㅀ,ㅄ...밟"))
 # print()
 # print(translator.syllables_to_characters("대한민국 this is a test"))
