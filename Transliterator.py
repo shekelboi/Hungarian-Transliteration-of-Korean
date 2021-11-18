@@ -498,19 +498,19 @@ class Hangul:
                 if previous_syllable is None:
                     result += Hangul.word_initial_consonants(syllable.leading_consonant)
                 else:
-                    result += Hangul.syllable_initial_consonants(previous_syllable.batchim, syllable.leading_consonant, syllable.vowel)
+                    result += Hangul.syllable_initial_consonants(previous_syllable.batchim, syllable.leading_consonant,
+                                                                 syllable.vowel)
             if syllable.vowel is not None:
                 result += Hangul.transliterate_vowel(syllable.vowel)
             if syllable.batchim is not None:
                 if next_syllable is None:
                     result += Hangul.word_final_consonants(syllable.batchim)
                 else:
-                    # Only for testing, must be changed later
                     result += Hangul.syllable_final_consonants(syllable.batchim, next_syllable)
 
         return result
 
-    # Only returns true for complex characters.
+    # Only returns true for syllables.
     def is_character_korean(self, character):
         code_point = ord(character)
         SIndex = code_point - self.SBase
@@ -522,7 +522,7 @@ class Hangul:
     def transliterate_text(self, text):
         result = ""
         # Splitting may need to be improved to properly include linebreaks
-        words = text.split(' ') # is worth consideration but might need some improvement
+        words = text.split(' ')  # is worth consideration but might need some improvement
         for word in words:
             korean_word = []
             for character in word:
