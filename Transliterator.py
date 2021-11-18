@@ -19,6 +19,7 @@ class Complex:
 
     @staticmethod
     def merge_characters(characters):
+        """ Merge complex Korean characters. """
         if characters == "ㄱㅅ":
             return "ㄳ"
         elif characters == "ㄴㅈ":
@@ -46,6 +47,7 @@ class Complex:
 
     @staticmethod
     def separate_characters(character):
+        """ Separate complex Korean characters. """
         if character == "ㄳ":
             return Complex("ㄱ", "ㅅ")
         elif character == "ㄵ":
@@ -90,25 +92,24 @@ class Hangul:
     # 11172 / 588 = 19 which is equal to the number of leading consonant jamos
     NCount = 588
 
-    """
-    Hangul syllables consists of 2 to 3 characters (because of diphthongs sometimes 4).
-    There are all together 11.732 Hangul syllables registered in unicode but all of
-    these characters can be broken down to 2 or 3 characters.
-    Original version of this function:
-    https://stackoverflow.com/a/12765973/7257264
-    The three parts of the syllables is as follows:
-    - Leading consonant jamo
-    - Vowel jamo
-    - Trailing consonant jamo
-    The calculations inside the function can be explained by taking a look at the Hangul syllables in Unicode:
-    https://en.wikipedia.org/wiki/Hangul_Syllables
-    The table is very logical, it goes through all the leading consonant jamos,
-    the vowel jamos and the trailing consonant jamos in alphabetical order.
-    The program may also be rewritten in a way to create a map to all possible hangul syllables
-    and use that.
-    """
-
     def syllables_to_characters(self, text):
+        """
+        Hangul syllables consists of 2 to 3 characters (because of diphthongs sometimes 4).
+        There are all together 11.732 Hangul syllables registered in unicode but all of
+        these characters can be broken down to 2 or 3 characters.
+        Original version of this function:
+        https://stackoverflow.com/a/12765973/7257264
+        The three parts of the syllables is as follows:
+        - Leading consonant jamo
+        - Vowel jamo
+        - Trailing consonant jamo
+        The calculations inside the function can be explained by taking a look at the Hangul syllables in Unicode:
+        https://en.wikipedia.org/wiki/Hangul_Syllables
+        The table is very logical, it goes through all the leading consonant jamos,
+        the vowel jamos and the trailing consonant jamos in alphabetical order.
+        The program may also be rewritten in a way to create a map to all possible hangul syllables
+        and use that.
+        """
         letters = ''
         for s in text:
             code_point = ord(s)
@@ -125,6 +126,7 @@ class Hangul:
 
     @staticmethod
     def default_consonant(consonant):
+        """ Retrieve the default pronunciation a Korean consonant. """
         # Simple consonants
         if consonant == "ㄱ":
             return "g"
@@ -194,6 +196,7 @@ class Hangul:
     # Part 4 Section 8 Korean Prules rule is unclear
     @staticmethod
     def syllable_final_consonants(current_batchim, next_syllable: Syllable):
+        """ Transliterate a Korean consonant at the end of a syllable. """
         if current_batchim == "ㄱ":
             if next_syllable.leading_consonant == "ㅎ":
                 return ""
@@ -261,6 +264,7 @@ class Hangul:
 
     @staticmethod
     def syllable_initial_consonants(previous_batchim, current_initial, current_vowel):
+        """ Transliterate a Korean consonant at the beginning of a syllable. """
         # Simple consonants
         if current_initial == "ㄱ":
             if previous_batchim == "ㄺ":
@@ -326,6 +330,7 @@ class Hangul:
 
     @staticmethod
     def word_final_consonants(consonant):
+        """ Transliterate a Korean consonant at the end of a word. """
         if consonant == "ㄱ":
             return "k"
         elif consonant == "ㄴ":
@@ -392,6 +397,7 @@ class Hangul:
 
     @staticmethod
     def word_initial_consonants(consonant):
+        """ Transliterate a Korean consonant at the beginning of a word. """
         if consonant == "ㄱ":
             return "k"
         elif consonant == "ㄴ":
@@ -435,6 +441,7 @@ class Hangul:
 
     @staticmethod
     def transliterate_vowel(vowel):
+        """ Transliterate a Korean vowel. Default pronunciation is used. """
         # Normal vowels
         if vowel == "ㅏ":
             return "á"
@@ -484,6 +491,7 @@ class Hangul:
 
     @staticmethod
     def transliterate_word(word: [Syllable]):
+        """ Transliterate a Korean word. """
         result = ""
 
         for i, syllable in enumerate(word):
@@ -510,8 +518,11 @@ class Hangul:
 
         return result
 
-    # Only returns true for syllables.
     def is_character_korean(self, character):
+        """
+        Only returns true for Korean syllables.
+        See: https://en.wikipedia.org/wiki/Hangul_Syllables
+        """
         code_point = ord(character)
         SIndex = code_point - self.SBase
         if 0 <= SIndex < self.SCount:
@@ -520,6 +531,7 @@ class Hangul:
             return False
 
     def transliterate_text(self, text):
+        """ Transliterate a block of text. """
         result = ""
         # Splitting may need to be improved to properly include linebreaks
         words = text.split(' ')  # is worth consideration but might need some improvement
@@ -558,4 +570,5 @@ translator = Hangul()
 # print(translator.syllables_to_characters("씨"))
 print(translator.transliterate_text("따뜻한"))
 print(translator.transliterate_text("굳이"))
-print(translator.transliterate_text("탈북민단체는 6.25전쟁 70주년을 맞아, 6.25 참상의 진실이라는 제목의 대북전단 100만 장을 이달 안에 날려 보낼 것이라고 밝혔으며 단체 측은 풍선 40 - 50개를 띄울 수 있는 수소가스를 준비했고, 풍선을 통한 전단 살포가 막히면 드론을 이용해 전단을 날리는 방안도 검토하고 있다고 설명했다"))
+print(translator.transliterate_text(
+    "탈북민단체는 6.25전쟁 70주년을 맞아, 6.25 참상의 진실이라는 제목의 대북전단 100만 장을 이달 안에 날려 보낼 것이라고 밝혔으며 단체 측은 풍선 40 - 50개를 띄울 수 있는 수소가스를 준비했고, 풍선을 통한 전단 살포가 막히면 드론을 이용해 전단을 날리는 방안도 검토하고 있다고 설명했다"))
