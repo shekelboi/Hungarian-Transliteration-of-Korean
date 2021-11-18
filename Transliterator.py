@@ -196,6 +196,8 @@ class Hangul:
             raise ValueError
 
     # Part 4 Section 8 Korean Prules rule is unclear
+    # The rules regarding the pronunciation of 'ㅅ' are not properly described
+    # The rules about the pronunciation of 'ㄹ' are lacking
     @staticmethod
     def syllable_final_consonants(current_batchim, next_syllable: Syllable):
         """ Transliterate a Korean consonant at the end of a syllable. """
@@ -219,6 +221,11 @@ class Hangul:
                 return ""
             elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
                 return "n"
+            elif next_syllable.leading_consonant == "ㅇ":
+                if next_syllable.vowel == "ㅣ":
+                    return "s"
+                else:
+                    return "sz"
         elif current_batchim == "ㅈ":
             if next_syllable.leading_consonant == "ㅎ":
                 return ""
@@ -293,6 +300,8 @@ class Hangul:
         elif current_initial == "ㅅ":
             if previous_batchim in ["ㅎ", "ㄶ", "ㅀ"]:
                 return "ssz"
+            if current_vowel == "ㅣ":
+                return "s"
         elif current_initial == "ㅇ":
             if current_vowel == "ㅣ":
                 if previous_batchim in ["ㅌ", "ㄾ"]:
