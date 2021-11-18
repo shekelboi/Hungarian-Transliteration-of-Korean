@@ -280,12 +280,18 @@ class Hangul:
     @staticmethod
     def syllable_initial_consonants(previous_batchim, current_initial, current_vowel):
         """ Transliterate a Korean consonant at the beginning of a syllable. """
-        # Simple consonants
-        if current_initial == "ㄱ":
+        # Simple consonants and tense consonants
+        if current_initial in ["ㄱ", "ㄲ"]:
             if previous_batchim == "ㄺ":
-                return "r"
+                if current_initial == "ㄱ":
+                    return "r"
+                elif current_initial == "ㄲ":
+                    return "rr"
             elif previous_batchim == "ㅎ":
-                return "k"
+                if current_initial == "ㄱ":
+                    return "k"
+                elif current_initial == "ㄲ":
+                    return "kk"
         elif current_initial == "ㄴ":
             if previous_batchim == "ㅎ":
                 return "n"
@@ -295,19 +301,25 @@ class Hangul:
                 return "r"
             elif previous_batchim == "ㄹ":
                 return "r"
-        elif current_initial == "ㄷ":
+        elif current_initial in ["ㄷ", "ㄸ"]:
             if previous_batchim in ["ㅎ", "ㄶ", "ㅀ"]:
-                return "t"
+                if current_initial == "ㄷ":
+                    return "t"
+                elif current_initial == "ㄸ":
+                    return "tt"
         elif current_initial == "ㄹ":
             if previous_batchim in ["ㅁ", "ㅇ", "ㄱ", "ㅂ"]:
                 return "n"
             elif previous_batchim == "ㄴ":
                 return "r"
-        elif current_initial == "ㅅ":
+        elif current_initial in ["ㅅ", "ㅆ"]:
             if previous_batchim in ["ㅎ", "ㄶ", "ㅀ"]:
                 return "ssz"
             if current_vowel == "ㅣ":
-                return "s"
+                if current_initial == "ㅆ":
+                    return "ss"
+                elif current_initial == "ㅅ":
+                    return "s"
         elif current_initial == "ㅇ":
             if current_vowel == "ㅣ":
                 if previous_batchim in ["ㅌ", "ㄾ"]:
@@ -320,9 +332,12 @@ class Hangul:
                 return Hangul.default_consonant(Complex.separate_characters(previous_batchim).second)
             else:
                 return ""
-        elif current_initial == "ㅈ":
+        elif current_initial in ["ㅈ", "ㅉ"]:
             if previous_batchim in ["ㅎ", "ㄶ", "ㅀ"]:
-                return "cs"
+                if current_initial == "ㅈ":
+                    return "cs"
+                elif current_initial == "ㅉ":
+                    return "css"
         elif current_initial == "ㅎ":
             if previous_batchim in ["ㄱ", "ㄺ"]:
                 return "k"
@@ -334,15 +349,10 @@ class Hangul:
                 return "dzs"
             elif previous_batchim == "ㅊ":
                 return "cs"
-        # Tense consonants
-        elif current_initial == "ㄲ":
-            return "k"
-        elif current_initial == "ㅆ":
-            return "d"
 
         # Other cases such as:
         # ㅁ, ㅂ, ㅊ, ㅋ, ㅌ, ㅍ
-        # ㄸ, ㅃ, ㅉ
+        # ㅃ
         return Hangul.default_consonant(current_initial)
 
     @staticmethod
