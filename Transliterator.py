@@ -269,7 +269,7 @@ class Hangul:
             else:
                 return "b"
         elif current_batchim == "ㅎ":
-            if next_syllable.leading_consonant in ["ㄱ", "ㄷ", "ㅈ"]:
+            if next_syllable.leading_consonant in ["ㄱ", "ㄲ", "ㄷ", "ㅈ"]:
                 return ""
             elif next_syllable.leading_consonant == "ㅅ":
                 return ""
@@ -277,6 +277,65 @@ class Hangul:
                 return "n"
             elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
                 return "n"
+        # Complex consonants
+        elif current_batchim == "ㄳ":
+            if next_syllable.leading_consonant in ["ㄱ", "ㄲ"]:
+                return "g"
+            elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
+                return "ng"
+        elif current_batchim == "ㄵ":
+            if next_syllable.leading_consonant == "ㄷ":
+                return "d"
+            elif next_syllable.leading_consonant == "ㅎ":
+                return ""
+            elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
+                return "n"
+        elif current_batchim == "ㄶ":
+            if next_syllable.leading_consonant in ["ㄱ", "ㄲ", "ㄷ", "ㅈ", "ㄴ", "ㅇ"]:
+                return "n"
+            elif next_syllable.leading_consonant == "ㅅ":
+                return "n"
+        elif current_batchim == "ㄺ":
+            if next_syllable.leading_consonant == "ㄱ":
+                return "r"
+            elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
+                return "ng"
+            else:
+                return "n"
+        elif current_batchim == "ㄻ":
+            return "m"
+        elif current_batchim == "ㄼ":
+            if next_syllable.leading_consonant == "ㅎ":
+                return "r"
+            else:
+                return "r"
+        elif current_batchim == "ㄼ":
+            if next_syllable.leading_consonant == "ㅎ":
+                return "r"
+            elif next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
+                return "m"
+            else:
+                return "r"
+        elif current_batchim == "ㄽ":
+            return "r"
+        elif current_batchim == "ㄾ":
+            if next_syllable.vowel == "ㅣ":
+                return ""
+            else:
+                return "r"
+        elif current_batchim == "ㄿ":
+            if next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
+                return "m"
+            else:
+                return "b"
+        elif current_batchim == "ㅀ":
+            if next_syllable.leading_consonant in ["ㄱ", "ㄷ", "ㅈ", "ㅅ", "ㅆ", "ㄴ"]:
+                return "r"
+        elif current_batchim == "ㅄ":
+            if next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
+                return "m"
+            else:
+                return "b"
 
         # Other cases such as:
         # ㄴ, ㄹ, ㅁ, ㅇ
