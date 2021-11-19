@@ -269,7 +269,7 @@ class Hangul:
             else:
                 return "b"
         elif current_batchim == "ㅎ":
-            if next_syllable.leading_consonant in ["ㄱ", "ㄲ", "ㄷ", "ㅈ"]:
+            if next_syllable.leading_consonant in ["ㄱ", "ㄲ", "ㄷ", "ㅈ", "ㅊ"]:
                 return ""
             elif next_syllable.leading_consonant == "ㅅ":
                 return ""
