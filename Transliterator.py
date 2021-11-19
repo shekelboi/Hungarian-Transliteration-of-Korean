@@ -171,27 +171,27 @@ class Hangul:
             return "ddzs"
         # Complex consonants
         elif consonant == "ㄳ":
-            return "g"
+            return "gsz"
         elif consonant == "ㄵ":
             return "ndzs"
         elif consonant == "ㄶ":
             return "nh"
         elif consonant == "ㄺ":
-            return "g"
+            return "rg"
         elif consonant == "ㄻ":
-            return "m"
+            return "rm"
         elif consonant == "ㄼ":
-            return "b"
+            return "rb"
         elif consonant == "ㄽ":
-            return "s"
+            return "rs"
         elif consonant == "ㄾ":
-            return "t"
+            return "rt"
         elif consonant == "ㄿ":
-            return "p"
+            return "rp"
         elif consonant == "ㅀ":
-            return "h"
+            return "rh"
         elif consonant == "ㅄ":
-            return "p"
+            return "bsz"
         else:
             raise ValueError
 
@@ -334,8 +334,8 @@ class Hangul:
         elif current_batchim == "ㅄ":
             if next_syllable.leading_consonant in ["ㄴ", "ㅁ"]:
                 return "m"
-            else:
-                return "b"
+            elif next_syllable.leading_consonant == "ㅇ":
+                return "bs"
 
         # Other cases such as:
         # ㄴ, ㄹ, ㅁ, ㅇ
