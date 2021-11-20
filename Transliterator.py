@@ -227,10 +227,12 @@ class Hangul:
             if current_batchim in ["ㄱ", "ㄲ", "ㄷ", "ㄸ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅈ", "ㅉ", "ㅊ", "ㅌ", "ㄵ"]:
                 return ""
 
-        if current_batchim == ["ㄷ", "ㄸ"]:
+        # Sound assimilation before syllable that begins with ㅣ
+        if current_batchim in ["ㄷ", "ㅌ", "ㄾ"]:
             if next_syllable.leading_consonant == "ㅇ" and next_syllable.vowel == "ㅣ":
                 return ""
-        elif current_batchim == "ㄹ" and next_syllable.leading_consonant != "ㅇ":
+
+        if current_batchim == "ㄹ" and next_syllable.leading_consonant != "ㅇ":
             return "l"
         elif current_batchim in ["ㅅ", "ㅆ"]:
             if next_syllable.leading_consonant in ["ㅈ", "ㅊ", "ㅌ"]:
@@ -248,9 +250,6 @@ class Hangul:
             return "n"
         elif current_batchim == "ㅋ":
             return "g"
-        elif current_batchim == "ㅌ":
-            if next_syllable.leading_consonant == "ㅇ" and next_syllable.vowel == "ㅣ":
-                return ""
         elif current_batchim == "ㅍ":
             return "b"
         elif current_batchim == "ㅎ":
@@ -319,7 +318,7 @@ class Hangul:
             if current_vowel == "ㅣ":
                 if previous_batchim in ["ㅌ", "ㄾ"]:
                     return "cs"
-                elif previous_batchim == "ㄷ":
+                elif previous_batchim in "ㄷ":
                     return "dzs"
             # If the previous character was complex (but not ㄾ) we take the default pronunciation of the second
             # letter from that.
