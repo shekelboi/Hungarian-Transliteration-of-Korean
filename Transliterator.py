@@ -300,9 +300,7 @@ class Hangul:
             elif previous_batchim == "ㅎ":
                 return "k" if current_initial == "ㄱ" else "kk"
         elif current_initial == "ㄴ":
-            if previous_batchim in ["ㅎ", "ㄶ"]:
-                return "n"
-            elif previous_batchim in ["ㅀ", "ㄹ"]:
+            if previous_batchim in ["ㅀ", "ㄹ"]:
                 return "l"
         elif current_initial in ["ㄷ", "ㄸ"]:
             if previous_batchim in ["ㅎ", "ㄶ", "ㅀ"]:
