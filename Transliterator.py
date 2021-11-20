@@ -244,6 +244,8 @@ class Hangul:
                     return "sz" if current_batchim == "ㅅ" else "ssz"
             elif next_syllable.leading_consonant == "ㄷ":
                 return "d"
+            elif next_syllable.leading_consonant == "ㄱ":
+                return "t"
         elif current_batchim in ["ㅈ", "ㅉ"]:
             return "d"
         elif current_batchim == "ㅊ":
