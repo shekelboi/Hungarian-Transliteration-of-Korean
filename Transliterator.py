@@ -238,7 +238,7 @@ class Hangul:
             if next_syllable.leading_consonant in ["ㅈ", "ㅊ", "ㅌ"]:
                 return ""
             elif next_syllable.leading_consonant == "ㅇ":
-                if next_syllable.vowel == "ㅣ":
+                if next_syllable.vowel in ["ㅣ", "ㅟ", "ㅢ"]:
                     return "s" if current_batchim == "ㅅ" else "ss"
                 else:
                     return "sz" if current_batchim == "ㅅ" else "ssz"
@@ -312,7 +312,7 @@ class Hangul:
         elif current_initial in ["ㅅ", "ㅆ"]:
             if previous_batchim in ["ㅎ", "ㄶ", "ㅀ"]:
                 return "ssz"
-            if current_vowel == "ㅣ":
+            if current_vowel in ["ㅣ", "ㅟ", "ㅢ"]:
                 return "ss" if current_initial == "ㅆ" else "s"
         elif current_initial == "ㅇ":
             if current_vowel == "ㅣ":
@@ -417,7 +417,7 @@ class Hangul:
     def word_initial_consonants_with_vowel(consonant, vowel):
         """ For special cases where the vowel affects the pronunciation (e.g. ㅅ) """
         if consonant == "ㅅ":
-            if vowel == "ㅣ":
+            if vowel in ["ㅣ", "ㅟ", "ㅢ"]:
                 return "s"
         return Hangul.word_initial_consonants(consonant)
 
