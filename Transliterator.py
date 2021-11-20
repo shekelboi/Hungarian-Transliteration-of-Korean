@@ -318,7 +318,7 @@ class Hangul:
             if current_vowel == "ㅣ":
                 if previous_batchim in ["ㅌ", "ㄾ"]:
                     return "cs"
-                elif previous_batchim in "ㄷ":
+                elif previous_batchim == "ㄷ":
                     return "dzs"
             # If the previous character was complex (but not ㄾ) we take the default pronunciation of the second
             # letter from that.
