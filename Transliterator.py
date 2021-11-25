@@ -614,3 +614,4 @@ elif args.input is not None:
     if args.output is not None:
         with open(args.output[0], mode="w", encoding="utf-8") as file:
             file.write(transliteration)
+        print("Successfully saved to: {}".format(os.getcwd() + "\\" + args.output[0]))
